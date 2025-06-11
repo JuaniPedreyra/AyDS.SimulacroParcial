@@ -4,7 +4,9 @@ import com.google.gson.Gson
 import com.google.gson.JsonObject
 import java.net.URL
 
-class ApiY {
+
+//TODO("Refactor!!!")
+class FreeCryptoAPI {
     fun get(symbol: String): Double {
         val url = "https://api.alternative.me/v2/ticker/1/?convert=$symbol"
         val text = URL(url).readText()
