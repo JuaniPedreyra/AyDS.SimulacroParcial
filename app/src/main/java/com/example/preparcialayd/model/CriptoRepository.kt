@@ -1,44 +1,19 @@
 package com.example.preparcialayd.model
 
-import C.FreeCryptoAPI
-import android.content.Context
-import android.content.SharedPreferences
-import androidx.core.content.edit
-import com.example.preparcialayd.injector.CriptoInjector
+import com.example.preparcialayd.model.external.CriptoRepositoryRemote
+import com.example.preparcialayd.model.local.CriptoRepositoryLocal
 
-interface DataRepo{
+interface CriptoRepository{
     fun fetchPrice(coin: String): Double
 }
 
-interface CriptoRemote{
-    fun getData(): Double
-}
-
-interface CriptoLocal{
-    fun getData(): Double
-}
-
-
 class DataRepoImpl(
-    private val sharedPreferences: SharedPreferences,
-    private val localStorage: CriptoLocal,
-    private val remoteStorage: CriptoRemote
-) : DataRepo {
+    private val localStorage: CriptoRepositoryLocal,
+    private val remoteStorage: CriptoRepositoryRemote
+) : CriptoRepository {
 
     override fun fetchPrice(coin: String): Double {
-        val cachedCoin = sharedPreferences.getString(coin, null)
-        var result : Double
-
-        if(cachedCoin == null) {
-            result = FreeCryptoAPI().get(coin)
-            sharedPreferences.edit { putString(coin, result.toString()) }
-        } else {
-            result = try {
-                cachedCoin.toDouble()
-            } catch (e: Exception) {
-                0.0
-            }
-        }
-        return result
+        val cachedPrice = localStorage.get(coin)
+        return if (cachedPrice == -1.0) remoteStorage.get(coin) else cachedPrice
     }
 }

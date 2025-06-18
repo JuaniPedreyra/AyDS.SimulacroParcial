@@ -1,9 +1,8 @@
-package C
+package com.example.preparcialayd.model.external
 
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import java.net.URL
-
 
 //TODO("Refactor!!!")
 class FreeCryptoAPI {

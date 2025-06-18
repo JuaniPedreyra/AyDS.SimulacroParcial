@@ -60,7 +60,7 @@ class CriptoView() : AppCompatActivity() {
         spinner.adapter = adapter
     }
 
-    private fun onPrice(symbol: String, price: Int) {
+    private fun onPrice(symbol: String, price: Double) {
         val coin = "$symbol – $price"
         runOnUiThread {
             priceTextView.text = coin
